@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WoofHaven, tu hospedaje para todo tipo de mascotas</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F9F6F1',
+            sand:  '#EDE8DF',
+            bark:  '#2C1A0E',
+            paw:   '#D97941',
+            'paw-light': '#F5E4D4',
+            moss:  '#4A6741',
+            'moss-light': '#D8E8D5',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body:    ['Plus Jakarta Sans', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-display { font-family: 'Playfair Display', serif; }
+
+    @keyframes floatPaw {
+      0%, 100% { transform: translateY(0) rotate(var(--r,0deg)); opacity: 0.07; }
+      50%       { transform: translateY(-14px) rotate(var(--r,0deg)); opacity: 0.13; }
+    }
+    .paw-float { animation: floatPaw 6s ease-in-out infinite; }
+    .paw-float:nth-child(2) { animation-delay:1.5s; --r:15deg; }
+    .paw-float:nth-child(3) { animation-delay:3s;   --r:-10deg; }
+    .paw-float:nth-child(4) { animation-delay:4.5s; --r:20deg; }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-up   { animation: fadeUp .7s ease forwards; }
+    .fade-up-2 { animation: fadeUp .7s .15s ease forwards; opacity:0; }
+    .fade-up-3 { animation: fadeUp .7s .30s ease forwards; opacity:0; }
+    .fade-up-4 { animation: fadeUp .7s .45s ease forwards; opacity:0; }
+
+    .carousel-track { transition: transform .5s cubic-bezier(.4,0,.2,1); }
+
+    .reveal { opacity:0; transform:translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    .dot-active { width:1.5rem !important; }
+  </style>
+</head>
+<body class="bg-cream text-bark">
+
+  <!-- SVG paw symbol -->
+  <svg class="hidden" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="paw" viewBox="0 0 64 64">
+      <ellipse cx="32" cy="40" rx="13" ry="11" fill="currentColor"/>
+      <ellipse cx="16" cy="28" rx="6.5" ry="8"  fill="currentColor"/>
+      <ellipse cx="26" cy="21" rx="6"   ry="7.5" fill="currentColor"/>
+      <ellipse cx="38" cy="21" rx="6"   ry="7.5" fill="currentColor"/>
+      <ellipse cx="48" cy="28" rx="6.5" ry="8"  fill="currentColor"/>
+    </symbol>
+  </svg>
+
+  <nav class="fixed top-0 inset-x-0 z-50 bg-cream/90 backdrop-blur-md border-b border-paw/10">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-2">
+        <svg class="w-7 h-7 text-paw" viewBox="0 0 64 64"><use href="#paw"/></svg>
+        <span style="font-family:'Playfair Display',serif" class="text-xl font-bold text-bark">Woof<span class="text-paw">Haven</span></span>
+      </a>
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-bark/60">
+        <li><a href="#servicios"  class="hover:text-paw transition-colors">Servicios</a></li>
+        <li><a href="#video"      class="hover:text-paw transition-colors">Vídeo</a></li>
+        <li><a href="#galeria"    class="hover:text-paw transition-colors">Galería</a></li>
+        <li><a href="#podcast"    class="hover:text-paw transition-colors">Podcast</a></li>
+        <li><a href="#contacto"   class="hover:text-paw transition-colors">Contacto</a></li>
+      </ul>
+      <a href="#contacto" class="bg-paw text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-bark transition-colors">Reservar</a>
+    </div>
+  </nav>
+
+  <section id="hero" class="relative min-h-screen flex items-center overflow-hidden pt-20">
+
+    <div class="absolute inset-0 bg-gradient-to-br from-cream via-cream to-paw-light/50 pointer-events-none"></div>
+
+    <svg class="paw-float absolute top-16  right-12  w-20 h-20 text-paw pointer-events-none" viewBox="0 0 64 64"><use href="#paw"/></svg>
+    <svg class="paw-float absolute top-1/3 right-1/4 w-14 h-14 text-paw pointer-events-none" viewBox="0 0 64 64"><use href="#paw"/></svg>
+    <svg class="paw-float absolute bottom-24 right-16 w-10 h-10 text-paw pointer-events-none" viewBox="0 0 64 64"><use href="#paw"/></svg>
+    <svg class="paw-float absolute bottom-1/3 left-8  w-12 h-12 text-paw pointer-events-none" viewBox="0 0 64 64"><use href="#paw"/></svg>
+
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <svg style="position:absolute;top:8%;left:58%;width:260px;opacity:.04;transform:rotate(0deg)"   viewBox="0 0 64 64"><use href="#paw"/></svg>
+      <svg style="position:absolute;top:20%;left:66%;width:200px;opacity:.04;transform:rotate(12deg)"  viewBox="0 0 64 64"><use href="#paw"/></svg>
+      <svg style="position:absolute;top:33%;left:60%;width:230px;opacity:.04;transform:rotate(-5deg)"  viewBox="0 0 64 64"><use href="#paw"/></svg>
+      <svg style="position:absolute;top:47%;left:68%;width:210px;opacity:.04;transform:rotate(8deg)"   viewBox="0 0 64 64"><use href="#paw"/></svg>
+      <svg style="position:absolute;top:61%;left:61%;width:190px;opacity:.04;transform:rotate(-12deg)" viewBox="0 0 64 64"><use href="#paw"/></svg>
+      <svg style="position:absolute;top:74%;left:70%;width:170px;opacity:.04;transform:rotate(6deg)"   viewBox="0 0 64 64"><use href="#paw"/></svg>
+    </div>
+
+    <div class="relative max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center py-16">
+
+      <div>
+        <div class="fade-up inline-flex items-center gap-2 bg-moss-light text-moss text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 64 64"><use href="#paw"/></svg>
+          Barcelona · Abierto 365 días
+        </div>
+        <h1 style="font-family:'Playfair Display',serif" class="fade-up-2 text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-bark mb-6">
+          Tu perro,<br/>
+          <span class="text-paw">feliz</span><br/>
+          en casa.
+        </h1>
+        <p class="fade-up-3 text-bark/55 text-lg leading-relaxed font-light max-w-md mb-8">
+          Hospedaje profesional y guardería para perros. Cuidado personalizado, espacios amplios y amor de sobra.
+        </p>
+        <div class="fade-up-4 flex flex-wrap gap-3">
+          <a href="#contacto" class="bg-paw text-white font-semibold px-7 py-3.5 rounded-full hover:bg-bark transition-colors text-sm">Reservar plaza</a>
+          <a href="#video"    class="bg-white text-bark font-semibold px-7 py-3.5 rounded-full border border-bark/10 hover:border-paw hover:text-paw transition-colors text-sm">Ver vídeo ↓</a>
+        </div>
+
+        <div class="fade-up-4 flex gap-8 mt-10 pt-8 border-t border-paw/10">
+          <div>
+            <p style="font-family:'Playfair Display',serif" class="text-3xl font-bold text-paw">+500</p>
+            <p class="text-xs text-bark/50 font-medium mt-0.5">Perros alojados</p>
+          </div>
+          <div>
+            <p style="font-family:'Playfair Display',serif" class="text-3xl font-bold text-paw">4.9★</p>
+            <p class="text-xs text-bark/50 font-medium mt-0.5">Valoración media</p>
+          </div>
+          <div>
+            <p style="font-family:'Playfair Display',serif" class="text-3xl font-bold text-paw">8 años</p>
+            <p class="text-xs text-bark/50 font-medium mt-0.5">De experiencia</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="relative hidden md:block">
+        <div class="aspect-[4/5] rounded-3xl bg-gradient-to-br from-paw/20 to-paw/5 border border-paw/10 overflow-hidden flex items-center justify-center">
+      
+          
+            <img class="rounded-3x1" src="https://i.postimg.cc/t4PkTkFp/image.png">
+          
+          <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-sm rounded-2xl p-4 flex items-center gap-3 shadow-lg">
+            <div class="w-10 h-10 rounded-xl bg-paw-light flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5 text-paw" viewBox="0 0 64 64"><use href="#paw"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-semibold text-bark">Max está feliz 🐾</p>
+              <p class="text-[11px] text-bark/50">Día 3 de hospedaje · Todo perfecto</p>
+            </div>
+            <span class="ml-auto text-xs bg-moss-light text-moss font-semibold px-2.5 py-1 rounded-full">En vivo</span>
+          </div>
+        </div>
+        <div class="absolute -top-4 -right-4 bg-paw text-white w-20 h-20 rounded-full flex flex-col items-center justify-center shadow-xl">
+          <span style="font-family:'Playfair Display',serif" class="text-xl font-bold leading-none">24h</span>
+          <span class="text-[9px] font-semibold uppercase tracking-wide opacity-80">cuidado</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicios" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal text-center mb-14">
+        <p class="text-paw text-xs font-semibold uppercase tracking-widest mb-3">Lo que ofrecemos</p>
+        <h2 style="font-family:'Playfair Display',serif" class="text-4xl md:text-5xl font-bold text-bark">Servicios con <span class="text-paw">alma</span></h2>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="reveal group bg-cream rounded-2xl p-6 hover:bg-paw-light transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-paw/10 group-hover:bg-paw/20 flex items-center justify-center mb-5 transition-colors">
+            <svg class="w-6 h-6 text-paw" viewBox="0 0 64 64"><use href="#paw"/></svg>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif" class="text-lg font-bold text-bark mb-2">Hospedaje nocturno</h3>
+          <p class="text-bark/55 text-sm leading-relaxed font-light">Cama propia, rutinas respetadas y actualizaciones diarias para los dueños.</p>
+          <p class="mt-4 text-paw font-semibold text-sm">Desde 30 €/noche</p>
+        </div>
+        <div class="reveal group bg-cream rounded-2xl p-6 hover:bg-paw-light transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-paw/10 group-hover:bg-paw/20 flex items-center justify-center mb-5 transition-colors">
+            <svg class="w-6 h-6 text-paw" viewBox="0 0 64 64"><use href="#paw"/></svg>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif" class="text-lg font-bold text-bark mb-2">Guardería diurna</h3>
+          <p class="text-bark/55 text-sm leading-relaxed font-light">Juego, socialización y descanso supervisado durante el día.</p>
+          <p class="mt-4 text-paw font-semibold text-sm">Desde 18 €/día</p>
+        </div>
+        <div class="reveal group bg-cream rounded-2xl p-6 hover:bg-paw-light transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-paw/10 group-hover:bg-paw/20 flex items-center justify-center mb-5 transition-colors">
+            <svg class="w-6 h-6 text-paw" viewBox="0 0 64 64"><use href="#paw"/></svg>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif" class="text-lg font-bold text-bark mb-2">Peluquería canina</h3>
+          <p class="text-bark/55 text-sm leading-relaxed font-light">Baño, corte, secado y cuidado completo con productos naturales.</p>
+          <p class="mt-4 text-paw font-semibold text-sm">Desde 25 €</p>
+        </div>
+        <div class="reveal group bg-cream rounded-2xl p-6 hover:bg-paw-light transition-colors">
+          <div class="w-12 h-12 rounded-xl bg-paw/10 group-hover:bg-paw/20 flex items-center justify-center mb-5 transition-colors">
+            <svg class="w-6 h-6 text-paw" viewBox="0 0 64 64"><use href="#paw"/></svg>
+          </div>
+          <h3 style="font-family:'Playfair Display',serif" class="text-lg font-bold text-bark mb-2">Paseos premium</h3>
+          <p class="text-bark/55 text-sm leading-relaxed font-light">Rutas personalizadas con GPS en tiempo real y foto de cada salida.</p>
+          <p class="mt-4 text-paw font-semibold text-sm">Desde 12 €/paseo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VÍDEO ===== -->
+  <section id="video" class="py-24 bg-bark relative overflow-hidden">
+    <svg class="absolute top-8 right-10 w-24 h-24 text-white opacity-[0.04] pointer-events-none" viewBox="0 0 64 64"><use href="#paw"/></svg>
+    <svg class="absolute bottom-8 left-10 w-16 h-16 text-white opacity-[0.04] pointer-events-none" viewBox="0 0 64 64"><use href="#paw"/></svg>
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <div class="reveal mb-10">
+        <p class="text-paw text-xs font-semibold uppercase tracking-widest mb-3">Vídeo promocional</p>
+        <h2 style="font-family:'Playfair Display',serif" class="text-4xl md:text-5xl font-bold text-white mb-4">Conoce <span class="text-paw">WoofHaven</span></h2>
+        <p class="text-white/40 font-light max-w-md mx-auto text-sm">Descubre cómo cuidamos a tu mejor amigo como si fuera el nuestro.</p>
+      </div>
+      <div class="reveal rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+          <video controls class="w-full aspect-video">
+            <source src="videos/VideoWoofHaven.mp4" type="video/mp4">
+          </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CARRUSEL ===== -->
+  <section id="galeria" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal flex items-end justify-between mb-10 flex-wrap gap-4">
+        <div>
+          <p class="text-paw text-xs font-semibold uppercase tracking-widest mb-3">Galería</p>
+          <h2 style="font-family:'Playfair Display',serif" class="text-4xl md:text-5xl font-bold text-bark">Momentos <span class="text-paw">felices</span></h2>
+        </div>      </div>
+
+      <div class="reveal relative overflow-hidden rounded-3xl">
+        <div id="track" class="carousel-track flex">
+
+          <!-- Slide 1 — reemplaza por <img src="imagen1.jpg" class="min-w-full aspect-[16/7] object-cover"> -->
+          <div class="min-w-full aspect-[16/7] bg-gradient-to-br from-paw/25 to-paw/5 flex flex-col items-center justify-center gap-2">
+            <img src="https://i.postimg.cc/jdqYyWMb/Gemini-Generated-Image-oc6l83oc6l83oc6l.png">
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="min-w-full aspect-[16/7] bg-gradient-to-br from-moss/20 to-moss/5 flex flex-col items-center justify-center gap-2">
+<img src="https://i.postimg.cc/QCdhbSpt/Gemini-Generated-Image-v0nx74v0nx74v0nx.png">
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="min-w-full aspect-[16/7] bg-gradient-to-br from-bark/10 to-sand flex flex-col items-center justify-center gap-2">
+            <img src="https://i.postimg.cc/mrZ4R85K/Gemini-Generated-Image-z4aidvz4aidvz4ai.png">
+          </div>
+
+ <div class="min-w-full aspect-[16/7] bg-gradient-to-br from-bark/10 to-sand flex flex-col items-center justify-center gap-2">
+            <img src="https://i.postimg.cc/cJPFTJwm/Gemini-Generated-Image-7rynk77rynk77ryn.png">
+          </div>
+
+          
+        </div>
+        <button id="prev" class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 shadow-md hover:bg-white flex items-center justify-center text-bark hover:text-paw transition-colors z-10 text-lg">&#8592;</button>
+        <button id="next" class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 shadow-md hover:bg-white flex items-center justify-center text-bark hover:text-paw transition-colors z-10 text-lg">&#8594;</button>
+      </div>
+
+      <div id="dots" class="flex justify-center gap-2 mt-5">
+        <button class="h-2 rounded-full bg-paw transition-all" style="width:1.5rem" data-i="0"></button>
+        <button class="h-2 w-2 rounded-full bg-paw/20 transition-all" data-i="1"></button>
+        <button class="h-2 w-2 rounded-full bg-paw/20 transition-all" data-i="2"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PODCAST ===== -->
+  <section id="podcast" class="py-24 bg-cream">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal text-center mb-12">
+        <p class="text-paw text-xs font-semibold uppercase tracking-widest mb-3">Podcast corporativo</p>
+        <h2 style="font-family:'Playfair Display',serif" class="text-4xl md:text-5xl font-bold text-bark">Nuestra <span class="text-paw">historia</span></h2>
+        <p class="text-bark/45 font-light mt-3 max-w-sm mx-auto text-sm">Escucha quiénes somos, qué nos mueve y por qué amamos este trabajo.</p>
+      </div>
+      <div class="reveal max-w-xl mx-auto bg-white rounded-3xl p-6 border border-paw/10 shadow-sm">
+        <div class="flex items-center gap-4 mb-5">
+          <div class="w-14 h-14 rounded-2xl bg-paw flex items-center justify-center shrink-0">
+            <svg class="w-7 h-7 text-white" viewBox="0 0 64 64"><use href="#paw"/></svg>
+          </div>
+          <div>
+            <p style="font-family:'Playfair Display',serif" class="font-bold text-bark text-lg">WoofHaven Podcast</p>
+            <p class="text-bark/45 text-xs font-light">Ep. 1 (Introducción) Bienvenidos a WoofHaven!</p>
+          </div>
+        </div>
+          <audio controls class="w-full rounded-xl">
+            <source src="audios/IntroWoofHaven.mp3" type="audio/mpeg">
+          </audio>
+        <p class="mt-5 text-bark/50 text-sm leading-relaxed font-light">
+          Hablamos de nuestra visión, los valores que guían WoofHaven y cómo nació la idea de crear un espacio donde los perros se sintieran verdaderamente en casa.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INFOGRAFÍA ===== -->
+  <section id="infografia" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal text-center mb-12">
+        <p class="text-paw text-xs font-semibold uppercase tracking-widest mb-3">Infografía interactiva</p>
+        <h2 style="font-family:'Playfair Display',serif" class="text-4xl md:text-5xl font-bold text-bark">¿Cómo <span class="text-paw">funciona</span>?</h2>
+        <p class="text-bark/45 font-light mt-3 text-sm">Creada con Canva e incrustada aquí.</p>
+      </div>
+      <!--
+        REEMPLAZA por el embed de Canva:
+        <div class="reveal" style="position:relative;width:100%;height:0;padding-top:56.25%">
+          <iframe loading="lazy" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;border-radius:1.5rem"
+            src="https://www.canva.com/design/TU_ID/view?embed"></iframe>
+        </div>
+      -->
+      <div class="reveal aspect-video bg-sand rounded-3xl border border-paw/10 flex flex-col items-center justify-center text-bark/30 gap-2">
+        <iframe loading="lazy" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:none;border-radius:1.5rem" src="https://claude.ai/public/artifacts/01cc673a-1dc9-4699-b3f6-255c651e518b">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAPA + CONTACTO ===== -->
+  <section id="contacto" class="py-24 bg-cream">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="reveal grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="text-paw text-xs font-semibold uppercase tracking-widest mb-3">Encuéntranos</p>
+          <h2 style="font-family:'Playfair Display',serif" class="text-4xl md:text-5xl font-bold text-bark mb-8">Visítanos <span class="text-paw">aquí</span></h2>
+          <div class="space-y-5 text-bark/60 text-sm font-light">
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-paw mt-0.5 shrink-0" viewBox="0 0 64 64"><use href="#paw"/></svg>
+              <div><p class="font-semibold text-bark text-base mb-0.5">Dirección</p><p>Av. Diagonal, 628, Sarrià-Sant Gervasi, 08017 Barcelona</p></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-paw mt-0.5 shrink-0" viewBox="0 0 64 64"><use href="#paw"/></svg>
+              <div><p class="font-semibold text-bark text-base mb-0.5">Horario</p><p>Lun–Vie 8:00–20:00 · Sáb 9:00–15:00</p></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-paw mt-0.5 shrink-0" viewBox="0 0 64 64"><use href="#paw"/></svg>
+              <div><p class="font-semibold text-bark text-base mb-0.5">Teléfono</p><p>+34 600 000 000</p></div>
+            </div>
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-paw mt-0.5 shrink-0" viewBox="0 0 64 64"><use href="#paw"/></svg>
+              <div><p class="font-semibold text-bark text-base mb-0.5">Email</p><p>hola@woofhaven.com</p></div>
+            </div>
+          </div>
+          <a href="mailto:hola@woofhaven.com" class="mt-8 inline-block bg-paw text-white font-semibold px-7 py-3.5 rounded-full hover:bg-bark transition-colors text-sm">Contactar ahora</a>
+        </div>
+
+        <!-- Mapa -->
+        <div class="reveal rounded-3xl overflow-hidden border border-paw/10 shadow-md h-80">
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2645.910403539159!2d2.1401658218012636!3d41.391822080596626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2ses!4v1775507022965!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:100%;border:0"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-bark py-10">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-white/40">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-paw" viewBox="0 0 64 64"><use href="#paw"/></svg>
+        <span style="font-family:'Playfair Display',serif" class="font-bold text-white/70">Woof<span class="text-paw">Haven</span></span>
+      </div>
+      <p class="font-light text-xs">© 2026 WoofHaven · Hospedaje para perros · Barcelona</p>
+      <div class="flex gap-6 text-xs">
+        <a href="#servicios" class="hover:text-paw transition-colors">Servicios</a>
+        <a href="#contacto"  class="hover:text-paw transition-colors">Contacto</a>
+        <a href="#podcast"   class="hover:text-paw transition-colors">Podcast</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Carrusel
+    const track = document.getElementById('track');
+    const allDots = document.querySelectorAll('#dots button');
+    let current = 0, total = 3;
+
+    function goTo(i) {
+      current = (i + total) % total;
+      track.style.transform = `translateX(-${current * 100}%)`;
+      allDots.forEach((d, idx) => {
+        const active = idx === current;
+        d.style.width      = active ? '1.5rem' : '0.5rem';
+        d.style.background = active ? '#D97941' : 'rgba(217,121,65,0.2)';
+      });
+    }
+
+    document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+    document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+    allDots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.i)));
+    setInterval(() => goTo(current + 1), 4500);
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
